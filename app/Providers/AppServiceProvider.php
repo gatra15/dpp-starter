@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Contracts\LogRepositoryInterface;
+use App\Repositories\LogRepository;
+
+use App\Contracts\UserRepositoryInterface;
+use App\Repositories\UserRepository;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

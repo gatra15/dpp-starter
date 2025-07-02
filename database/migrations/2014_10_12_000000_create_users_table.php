@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('department_id')->on('departments');
-            $table->foreignId('urusan_id')->on('urusan');
+            $table->foreignId('department_id')->on('departments')->nullable();
+            $table->foreignId('urusan_id')->on('urusan')->nullable();
             $table->rememberToken();
             // $table->timestamps();
         });
