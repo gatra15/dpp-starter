@@ -73,7 +73,7 @@ class MakeRepositoryCommand extends Command
 
         namespace App\Repositories;
 
-        use App\Repositories\Contracts\\{$interfaceName};
+        use App\Contracts\\{$interfaceName};
 
         class {$className} implements {$interfaceName}
         {
