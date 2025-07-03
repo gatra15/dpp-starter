@@ -7,7 +7,13 @@ use ErrorException;
 
 class BaseService
 {
-    protected $module, $getAction, $detailAction, $createAction, $updateAction, $deleteAction, $user_id;
+    protected $module;
+    protected $getAction;
+    protected $detailAction;
+    protected $createAction;
+    protected $updateAction;
+    protected $deleteAction;
+    protected $user_id;
     
     public function __construct($module, $getAction, $detailAction, $createAction, $updateAction, $deleteAction)
     {

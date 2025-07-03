@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Services\AuthService;
 
 class RegisterController
 {
@@ -22,20 +23,8 @@ class RegisterController
             return response()->json($validator->errors(), 422);
         }
 
-        $user = User::create([
-            'name'     => $request->name,
-            'username' => $request->username,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $result = (new AuthService())->register($request);
 
-        // Optional: auto-login after registration
-        $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
-
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user'    => $user,
-            'token'   => $token,
-        ], 201);
+        return $result;
     }
 }
