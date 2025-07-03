@@ -23,4 +23,16 @@ class UserDto
 
         return $dto;
     }
+
+    public function toArray()
+    {
+        return [
+            'name'          => $this->name,
+            'username'      => $this->username,
+            'email'         => $this->email,
+            'password'      => $this->password,
+            'department_id' => $this->department_id,
+            'urusan_id'     => $this->urusan_id,
+        ];
+    }
 }
