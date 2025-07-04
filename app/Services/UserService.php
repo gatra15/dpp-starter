@@ -16,7 +16,6 @@ class UserService extends BaseService
     protected $deleteAction;
 
     public function __construct(
-        $module,
         GetUserAction $getAction,
         CreateUserAction $createAction,
         UpdateUserAction $updateAction,

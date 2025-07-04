@@ -10,9 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    protected UserService $userService;
-
-    public function __construct(UserService $userService)
+    public function __construct(protected UserService $userService)
     {
         $this->userService = $userService;
         $this->middleware('auth:api');
@@ -36,13 +34,11 @@ class UserController extends Controller
                 'username'      => 'required|string|unique:users,username',
                 'email'         => 'required|string|email|max:255|unique:users',
                 'password'      => 'required|string|min:6|confirmed',
-                'department_id' => 'required|integer|exists:departments,id',
-                'urusan_id'     => 'required|integer|exists:urusans,id',
+                'department_id' => 'integer|exists:departments,id',
+                'urusan_id'     => 'integer|exists:urusans,id',
             ]);
 
-            $userDto = UserDto::fromRequest($request);
-
-            $response = $this->userService->create($userDto);
+            $response = $this->userService->create($request);
             return response()->json($response, 201);
         } catch (ValidationException $e) {
             return response()->json(['status' => false, 'message' => 'Validation failed', 'errors' => $e->errors()], 422);
@@ -71,13 +67,11 @@ class UserController extends Controller
                 'username'      => 'sometimes|string|unique:users,username,' . $id,
                 'email'         => 'sometimes|string|email|max:255|unique:users,email,' . $id,
                 'password'      => 'sometimes|string|min:6|confirmed',
-                'department_id' => 'sometimes|integer|exists:departments,id',
-                'urusan_id'     => 'sometimes|integer|exists:urusans,id',
+                'department_id' => 'integer|exists:departments,id',
+                'urusan_id'     => 'integer|exists:urusans,id',
             ]);
 
-            $userDto = UserDto::fromRequest($request);
-
-            $response = $this->userService->update($id, $userDto);
+            $response = $this->userService->update($id, $request);
             return response()->json($response);
         } catch (ValidationException $e) {
             return response()->json(['status' => false, 'message' => 'Validation failed', 'errors' => $e->errors()], 422);
