@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Collection; // Import Collection jika no_pagina
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
-    public $model;
     public function __construct(User $user)
     {
         parent::__construct($user);
