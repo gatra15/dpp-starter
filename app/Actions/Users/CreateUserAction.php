@@ -15,7 +15,7 @@ class CreateUserAction
 
     public function execute($request)
     {
-        $dto = UserDTO::fromRequest($request);
+        $dto = UserDto::fromRequest($request);
         $data = $dto->toArray();
         $data['password'] = Hash::make($data['password']);
         $model = $this->userRepository->create($data);

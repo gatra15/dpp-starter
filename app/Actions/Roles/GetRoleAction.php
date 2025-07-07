@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Actions\Users;
+namespace App\Actions\Roles;
 
-use App\Repositories\UserRepository;
+use GuzzleHttp\Psr7\Query;
+use Illuminate\Http\Request;
 use App\Actions\Helper\QueryBuilderHelper;
+use App\Repositories\RoleRepository;
 
-class GetUserAction
+class GetRoleAction
 {
-    protected array $filterableColumns = ['department_id', 'urusan_id', 'name', 'username', 'email'];
-    protected array $searchableColumns = ['name', 'username', 'email'];
-    protected array $allowedSortColumns = ['id', 'name', 'email', 'username', 'department_id', 'urusan_id'];
+    protected array $filterableColumns = ['name'];
+    protected array $searchableColumns = ['name'];
+    protected array $allowedSortColumns = ['name'];
 
     public function __construct(
-        protected UserRepository $userRepository,
+        protected RoleRepository $roleRepository,
         protected QueryBuilderHelper $queryBuilderHelper
     ) {
         //
     }
-
-    public function execute($request)
+    public function execute(Request $request)
     {
-        $query = $this->userRepository->getAll($request);
+        $query = $this->roleRepository->getAll($request);
 
         $query = $this->queryBuilderHelper->applyFilters(
             $request,

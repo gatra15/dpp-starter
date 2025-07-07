@@ -10,13 +10,6 @@ use App\Actions\Users\GetDetailUserAction;
 
 class UserService extends BaseService
 {
-    protected $module;
-    protected $getAction;
-    protected $detailAction;
-    protected $createAction;
-    protected $updateAction;
-    protected $deleteAction;
-
     public function __construct(
         GetUserAction $getAction,
         GetDetailUserAction $detailAction,

@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Contracts\RoleRepositoryInterface;
+use App\Repositories\RoleRepository;
+
+use App\Contracts\DepartmentRepositoryInterface;
+use App\Repositories\DepartmentRepository;
+
 use App\Contracts\LogRepositoryInterface;
 use App\Repositories\LogRepository;
 

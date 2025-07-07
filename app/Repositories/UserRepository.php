@@ -4,10 +4,9 @@ namespace App\Repositories;
 
 use App\Contracts\UserRepositoryInterface;
 use App\Models\User;
-use Illuminate\Http\Request; // Import Request
-use Illuminate\Database\Eloquent\Builder; // Import Builder
-use Illuminate\Pagination\LengthAwarePaginator; // Import LengthAwarePaginator
-use Illuminate\Database\Eloquent\Collection; // Import Collection jika no_pagination
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {

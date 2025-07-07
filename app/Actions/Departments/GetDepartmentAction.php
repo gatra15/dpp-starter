@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Actions\Users;
+namespace App\Actions\Departments;
 
-use App\Repositories\UserRepository;
+use Illuminate\Http\Request;
 use App\Actions\Helper\QueryBuilderHelper;
+use App\Repositories\DepartmentRepository;
 
-class GetUserAction
+class GetDepartmentAction
 {
-    protected array $filterableColumns = ['department_id', 'urusan_id', 'name', 'username', 'email'];
-    protected array $searchableColumns = ['name', 'username', 'email'];
-    protected array $allowedSortColumns = ['id', 'name', 'email', 'username', 'department_id', 'urusan_id'];
+    protected array $filterableColumns = [];
+    protected array $searchableColumns = ['name'];
+    protected array $allowedSortColumns = ['id', 'name'];
 
     public function __construct(
-        protected UserRepository $userRepository,
+        protected DepartmentRepository $departmentRepository,
         protected QueryBuilderHelper $queryBuilderHelper
     ) {
         //
     }
 
-    public function execute($request)
+    public function execute(Request $request)
     {
-        $query = $this->userRepository->getAll($request);
+        $query = $this->departmentRepository->getAll($request);
 
         $query = $this->queryBuilderHelper->applyFilters(
             $request,
