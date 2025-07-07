@@ -14,6 +14,8 @@ class Department extends Model
         'head_id',
     ];
 
+    public $timestamps = false;
+
     public function head()
     {
         return $this->belongsTo(User::class, 'head_id');

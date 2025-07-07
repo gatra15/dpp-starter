@@ -12,7 +12,6 @@ use App\Contracts\LogRepositoryInterface;
 use App\Repositories\LogRepository;
 
 use App\Contracts\UserRepositoryInterface;
-use App\Models\Department;
 use App\Repositories\UserRepository;
 
 use Illuminate\Support\ServiceProvider;

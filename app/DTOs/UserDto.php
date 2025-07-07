@@ -17,7 +17,7 @@ class UserDto
         $dto->name          = $request->input('name');
         $dto->username      = $request->input('username');
         $dto->email         = $request->input('email');
-        $dto->password      = $request->input('password');
+        $dto->password      = "password";
         $dto->department_id = !empty($request->input('department_id')) ? $request->input('department_id') : null;
         $dto->urusan_id     = !empty($request->input('urusan_id')) ? $request->input('urusan_id') : null;
 

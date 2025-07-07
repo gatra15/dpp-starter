@@ -19,6 +19,9 @@ class CreateUserAction
         $data = $dto->toArray();
         $data['password'] = Hash::make($data['password']);
         $model = $this->userRepository->create($data);
+        if ($request->input('roles')) {
+            $model->assignRole($request->input('roles'));
+        }
         if ($model) {
             return $model;
         } else {
