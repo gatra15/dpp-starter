@@ -8,9 +8,9 @@ use App\Repositories\DepartmentRepository;
 
 class GetDepartmentAction
 {
-    protected array $filterableColumns = [];
+    protected array $filterableColumns = ['name'];
     protected array $searchableColumns = ['name'];
-    protected array $allowedSortColumns = ['id', 'name'];
+    protected array $allowedSortColumns = ['name'];
 
     public function __construct(
         protected DepartmentRepository $departmentRepository,
