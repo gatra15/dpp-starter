@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\UrusanRepositoryInterface;
+use App\Repositories\UrusanRepository;
+
 use App\Contracts\RoleRepositoryInterface;
 use App\Repositories\RoleRepository;
 
@@ -31,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
         $this->app->bind(DepartmentRepositoryInterface::class, DepartmentRepository::class);
+        $this->app->bind(UrusanRepositoryInterface::class, UrusanRepository::class);
     }
 
     /**

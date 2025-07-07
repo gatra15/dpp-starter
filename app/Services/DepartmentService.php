@@ -12,12 +12,12 @@ use App\Actions\Departments\GetDetailDepartmentAction;
 class DepartmentService extends BaseService
 {
     public function __construct(
-        protected GetDepartmentAction $getAllDepartmentAction,
+        protected GetDepartmentAction $getDepartmentAction,
         protected GetDetailDepartmentAction $detailAction,
         protected CreateDepartmentAction $createAction,
         protected UpdateDepartmentAction $updateAction,
         protected DeleteDepartmentAction $deleteAction
     ) {
-        parent::__construct('departments', $getAllDepartmentAction, $detailAction, $createAction, $updateAction, $deleteAction);
+        parent::__construct('departments', $getDepartmentAction, $detailAction, $createAction, $updateAction, $deleteAction);
     }
 }
