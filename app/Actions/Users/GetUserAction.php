@@ -4,10 +4,6 @@ namespace App\Actions\Users;
 
 use App\Repositories\UserRepository;
 use App\Actions\Helper\QueryBuilderHelper;
-use App\Services\UserService;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Collection;
 
 class GetUserAction
 {
