@@ -14,7 +14,7 @@ class BaseService
     protected $updateAction;
     protected $deleteAction;
     protected $user_id;
-    
+
     public function __construct($module, $getAction, $detailAction, $createAction, $updateAction, $deleteAction)
     {
         $this->module = $module;
@@ -35,7 +35,7 @@ class BaseService
             'data' => $data,
         ];
     }
-    
+
     public function getDetail($id)
     {
         $data = $this->detailAction->execute($id);
@@ -53,7 +53,7 @@ class BaseService
     public function create($request)
     {
         $data = $this->createAction->execute($request);
-        
+
         $this->log('create', $this->user_id, $data->id);
 
         return [
@@ -62,9 +62,8 @@ class BaseService
             'data' => $data,
 
         ];
-
     }
-    
+
     public function update($id, $request)
     {
         $data = $this->updateAction->execute($id, $request);
@@ -80,7 +79,7 @@ class BaseService
     public function delete($id)
     {
         $data = $this->deleteAction->execute($id);
-        
+
         $this->log('delete', $this->user_id, $id);
 
         return [
@@ -98,6 +97,6 @@ class BaseService
             'user_id' => $user_id,
         ];
 
-        $this(LogAction::class)->execute($data);
+        (new LogAction)->execute($data);
     }
 }

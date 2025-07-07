@@ -8,8 +8,8 @@ class UserDto
     public string $username;
     public string $email;
     public string $password;
-    public int $department_id;
-    public int $urusan_id;
+    public ?int $department_id;
+    public ?int $urusan_id;
 
     public static function fromRequest($request)
     {
@@ -18,8 +18,8 @@ class UserDto
         $dto->username      = $request->input('username');
         $dto->email         = $request->input('email');
         $dto->password      = $request->input('password');
-        $dto->department_id = $request->input('department_id');
-        $dto->urusan_id     = $request->input('urusan_id');
+        $dto->department_id = !empty($request->input('department_id')) ? $request->input('department_id') : null;
+        $dto->urusan_id     = !empty($request->input('urusan_id')) ? $request->input('urusan_id') : null;
 
         return $dto;
     }
@@ -31,8 +31,8 @@ class UserDto
             'username'      => $this->username,
             'email'         => $this->email,
             'password'      => $this->password,
-            'department_id' => $this->department_id,
-            'urusan_id'     => $this->urusan_id,
+            'department_id' => $this->department_id ?? null,
+            'urusan_id'     => $this->urusan_id ?? null,
         ];
     }
 }

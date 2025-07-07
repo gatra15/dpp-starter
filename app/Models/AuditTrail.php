@@ -11,4 +11,5 @@ class AuditTrail extends Model
 
     protected $guarded = ['id'];
     protected $table = 'audit_trails';
+    public $timestamps = false;
 }

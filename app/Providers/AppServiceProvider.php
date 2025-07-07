@@ -12,6 +12,7 @@ use App\Contracts\LogRepositoryInterface;
 use App\Repositories\LogRepository;
 
 use App\Contracts\UserRepositoryInterface;
+use App\Models\Department;
 use App\Repositories\UserRepository;
 
 use Illuminate\Support\ServiceProvider;
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
     {
         // Binding
         $this->app->bind(\App\Contracts\BaseRepositoryInterface::class, \App\Repositories\BaseRepository::class);
+        $this->app->bind(LogRepositoryInterface::class, LogRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
+        $this->app->bind(DepartmentRepositoryInterface::class, DepartmentRepository::class);
     }
 
     /**
