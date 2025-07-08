@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\StatusRepositoryInterface;
+use App\Repositories\StatusRepository;
+
 use App\Contracts\FacilityRepositoryInterface;
 use App\Repositories\FacilityRepository;
 
@@ -39,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DepartmentRepositoryInterface::class, DepartmentRepository::class);
         $this->app->bind(UrusanRepositoryInterface::class, UrusanRepository::class);
         $this->app->bind(FacilityRepositoryInterface::class, FacilityRepository::class);
+        $this->app->bind(StatusRepositoryInterface::class, StatusRepository::class);
     }
 
     /**

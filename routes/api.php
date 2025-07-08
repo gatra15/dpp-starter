@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\Status;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UrusanController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\Auth\LoginController;
@@ -63,4 +65,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('facilities/options', [FacilityController::class, 'options']);
     Route::put('facilities/{id}', [FacilityController::class, 'update']);
     Route::delete('facilities/{id}', [FacilityController::class, 'destroy']);
+
+    Route::get('status', [StatusController::class, 'index']);
+    Route::post('status', [StatusController::class, 'store']);
+    Route::get('status/options', [StatusController::class, 'options']);
+    Route::put('status/{id}', [StatusController::class, 'update']);
+    Route::delete('status/{id}', [StatusController::class, 'destroy']);
 });

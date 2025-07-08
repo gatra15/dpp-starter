@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface FacilityRepositoryInterface
+interface StatusRepositoryInterface
 {
    public function getAll();
 }
