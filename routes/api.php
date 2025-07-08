@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UrusanController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -56,4 +57,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('urusan/{id}', [UrusanController::class, 'show']);
     Route::put('urusan/{id}', [UrusanController::class, 'update']);
     Route::delete('urusan/{id}', [UrusanController::class, 'destroy']);
+
+    Route::get('facilities', [FacilityController::class, 'index']);
+    Route::post('facilities', [FacilityController::class, 'store']);
+    Route::put('facilities/{id}', [FacilityController::class, 'update']);
+    Route::delete('facilities/{id}', [FacilityController::class, 'destroy']);
 });
