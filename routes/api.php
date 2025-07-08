@@ -60,6 +60,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('facilities', [FacilityController::class, 'index']);
     Route::post('facilities', [FacilityController::class, 'store']);
+    Route::get('facilities/options', [FacilityController::class, 'options']);
     Route::put('facilities/{id}', [FacilityController::class, 'update']);
     Route::delete('facilities/{id}', [FacilityController::class, 'destroy']);
 });

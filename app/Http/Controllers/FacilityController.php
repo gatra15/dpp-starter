@@ -41,6 +41,20 @@ class FacilityController extends Controller
         }
     }
 
+    public function options()
+    {
+        try {
+            $options = $this->facilityService->getOptions();
+            return response()->json([
+                'status' => true,
+                'message' => 'Daftar opsi fasilitas berhasil diambil',
+                'data' => $options
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Gagal mengambil daftar opsi fasilitas: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         try {

@@ -14,7 +14,7 @@ class FacilityRepository extends BaseRepository implements FacilityRepositoryInt
         parent::__construct($facility);
     }
 
-    public function getAll(Request $request)
+    public function getAll()
     {
         return $this->model->query();
     }
