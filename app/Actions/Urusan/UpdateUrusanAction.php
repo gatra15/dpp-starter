@@ -11,8 +11,10 @@ class UpdateUrusanAction
         $this->urusanRepository = $urusanRepository;
     }
 
-    public function execute($id, $data)
+    public function execute($id, $request)
     {
-        return $this->urusanRepository->update($id, $data);
+        $data = $request->all();
+        $this->urusanRepository->update($id, $data);
+        return $this->urusanRepository->show($id);
     }
 }

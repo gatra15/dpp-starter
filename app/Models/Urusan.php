@@ -9,6 +9,8 @@ class Urusan extends Model
 {
     use HasFactory;
 
+    protected $table = 'urusan';
+
     protected $fillable = [
         'name',
         'department_id',

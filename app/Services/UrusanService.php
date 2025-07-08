@@ -12,11 +12,11 @@ use App\Actions\Urusan\GetDetailUrusanAction;
 class UrusanService extends BaseService
 {
     public function __construct(
-        protected GetUrusanAction $getUrusanAction,
-        protected GetDetailUrusanAction $detailAction,
-        protected CreateUrusanAction $createAction,
-        protected UpdateUrusanAction $updateAction,
-        protected DeleteUrusanAction $deleteAction
+        GetUrusanAction $getUrusanAction,
+        GetDetailUrusanAction $detailAction,
+        CreateUrusanAction $createAction,
+        UpdateUrusanAction $updateAction,
+        DeleteUrusanAction $deleteAction
     ) {
         parent::__construct('urusan', $getUrusanAction, $detailAction, $createAction, $updateAction, $deleteAction);
     }

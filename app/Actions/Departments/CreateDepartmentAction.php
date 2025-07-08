@@ -22,5 +22,6 @@ class CreateDepartmentAction
         } else {
             throw new \Exception('Failed to create department');
         }
+        
     }
 }

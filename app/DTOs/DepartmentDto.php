@@ -2,14 +2,12 @@
 
 namespace App\DTOs;
 
-use Illuminate\Http\Client\Request;
-
 class DepartmentDto
 {
     public string $name;
     public ?int $head_id = null;
 
-    public static function fromRequest(Request $request)
+    public static function fromRequest($request)
     {
         $dto = new self();
         $dto->name = $request->input('name');

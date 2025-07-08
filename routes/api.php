@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UrusanController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Auth\RegisterController;
 
 /*
@@ -35,5 +38,22 @@ Route::middleware('auth:api')->group(function () {
     Route::get('users/{id}', [UserController::class, 'show']);
     Route::put('users/{id}', [UserController::class, 'update']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);
+
+    Route::get('roles', [RoleController::class, 'index']);
     Route::post('roles', [RoleController::class, 'store']);
+    Route::get('roles/{id}', [RoleController::class, 'show']);
+    Route::put('roles/{id}', [RoleController::class, 'update']);
+    Route::delete('roles/{id}', [RoleController::class, 'destroy']);
+
+    Route::get('departments', [DepartmentController::class, 'index']);
+    Route::post('departments', [DepartmentController::class, 'store']);
+    Route::get('departments/{id}', [DepartmentController::class, 'show']);
+    Route::put('departments/{id}', [DepartmentController::class, 'update']);
+    Route::delete('departments/{id}', [DepartmentController::class, 'destroy']);
+
+    Route::get('urusan', [UrusanController::class, 'index']);
+    Route::post('urusan', [UrusanController::class, 'store']);
+    Route::get('urusan/{id}', [UrusanController::class, 'show']);
+    Route::put('urusan/{id}', [UrusanController::class, 'update']);
+    Route::delete('urusan/{id}', [UrusanController::class, 'destroy']);
 });

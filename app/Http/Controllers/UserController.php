@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Services\UserService;
-use App\DTOs\UserDto;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;

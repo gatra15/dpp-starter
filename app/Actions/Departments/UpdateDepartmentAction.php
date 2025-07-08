@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Users;
+namespace App\Actions\Departments;
 use App\Repositories\DepartmentRepository;
 
 class UpdateDepartmentAction
@@ -10,9 +10,11 @@ class UpdateDepartmentAction
         $this->departmentRepository = $departmentRepository;
     }
 
-    public function execute($id, $data)
+    public function execute($id, $request)
     {
-        return $this->departmentRepository->update($id, $data);
+        $data = $request->all();
+        $this->departmentRepository->update($id, $data);
+        return $this->departmentRepository->show($id);
     }
 
 }

@@ -11,8 +11,10 @@ class UpdateRoleAction
         $this->roleRepository = $roleRepository;
     }
 
-    public function execute($id, $data)
+    public function execute($id, $request)
     {
-        return $this->roleRepository->update($id, $data);
+        $data = $request->all();
+        $this->roleRepository->update($id, $data);
+        return $this->roleRepository->show($id);
     }
 }

@@ -11,7 +11,7 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
 {
     public function __construct()
     {
-        parent::__construct(Role::class);
+        parent::__construct(new Role());
     }
 
     public function getAll(Request $request): Builder
@@ -21,6 +21,6 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
 
     public function create($data)
     {
-        return Role::create($data);
+        return $this->model->create($data);
     }
 }

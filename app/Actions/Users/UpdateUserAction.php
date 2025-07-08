@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Actions\Users;
+
 use App\Repositories\UserRepository;
 
 class UpdateUserAction
@@ -10,9 +11,10 @@ class UpdateUserAction
         $this->userRepository = $userRepository;
     }
 
-    public function execute($id, $data)
+    public function execute($id, $request)
     {
-        return $this->userRepository->update($id, $data);
+        $data = $request->all();
+        $this->userRepository->update($id, $data);
+        return $this->userRepository->show($id);
     }
-
 }

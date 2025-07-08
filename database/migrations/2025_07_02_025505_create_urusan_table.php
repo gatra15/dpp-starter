@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('urusan', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('department_id')->on('departments');
-            $table->foreignId('head_id')->on('users');
+            $table->foreignId('department_id')->nullable()->constrained('departments');
+            $table->foreignId('head_id')->nullable()->constrained('users');
         });
     }
 
