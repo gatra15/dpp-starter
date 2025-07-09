@@ -18,6 +18,6 @@ class UrusanService extends BaseService
         UpdateUrusanAction $updateAction,
         DeleteUrusanAction $deleteAction
     ) {
-        parent::__construct('urusan', $getUrusanAction, $detailAction, $createAction, $updateAction, $deleteAction);
+        parent::__construct('urusan', $getUrusanAction, $detailAction, null, $createAction, $updateAction, $deleteAction);
     }
 }

@@ -18,6 +18,6 @@ class DepartmentService extends BaseService
         UpdateDepartmentAction $updateAction,
         DeleteDepartmentAction $deleteAction
     ) {
-        parent::__construct('departments', $getDepartmentAction, $detailAction, $createAction, $updateAction, $deleteAction);
+        parent::__construct('departments', $getDepartmentAction, $detailAction, null, $createAction, $updateAction, $deleteAction);
     }
 }

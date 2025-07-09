@@ -20,13 +20,6 @@ class FacilityService extends BaseService
         DeleteFacilityAction $deleteAction,
         GetOptionAction $getOptionAction
     ) {
-        parent::__construct('facilities', $getFacilityAction, null, $createAction, $updateAction, $deleteAction);
-
-        $this->getOptionAction = $getOptionAction;
-    }
-
-    public function getOptions()
-    {
-        return $this->getOptionAction->execute();
+        parent::__construct('facilities', $getFacilityAction, null, $getOptionAction, $createAction, $updateAction, $deleteAction);
     }
 }

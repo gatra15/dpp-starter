@@ -18,6 +18,6 @@ class RoomService extends BaseService
         UpdateRoomAction $updateAction,
         DeleteRoomAction $deleteAction
     ) {
-        parent::__construct('rooms', $getRoomAction, $detailAction, $createAction, $updateAction, $deleteAction);
+        parent::__construct('rooms', $getRoomAction, $detailAction, null, $createAction, $updateAction, $deleteAction);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Actions\Status;
 
 use App\DTOs\StatusDto;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\StatusRepository;
 
 class CreateStatusAction
@@ -14,13 +15,17 @@ class CreateStatusAction
 
     public function execute($request)
     {
-        $data = StatusDto::fromRequest($request);
-        $data = $data->toArray();
-        $model = $this->statusRepository->create($data);
-        if ($model) {
+        DB::beginTransaction();
+
+        try {
+            $data = StatusDto::fromRequest($request);
+            $data = $data->toArray();
+            $model = $this->statusRepository->create($data);
+            DB::commit();
             return $model;
-        } else {
-            throw new \Exception('Failed to create status');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Gagal membuat status: ' . $e->getMessage(), 0, $e);
         }
     }
 }

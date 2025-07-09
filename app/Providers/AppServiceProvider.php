@@ -46,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UrusanRepositoryInterface::class, UrusanRepository::class);
         $this->app->bind(FacilityRepositoryInterface::class, FacilityRepository::class);
         $this->app->bind(StatusRepositoryInterface::class, StatusRepository::class);
+        $this->app->bind(RoomRepositoryInterface::class, RoomRepository::class);
     }
 
     /**

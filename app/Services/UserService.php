@@ -17,6 +17,6 @@ class UserService extends BaseService
         UpdateUserAction $updateAction,
         DeleteUserAction $deleteAction
     ) {
-        parent::__construct('users', $getAction, $detailAction, $createAction, $updateAction, $deleteAction);
+        parent::__construct('users', $getAction, $detailAction, null, $createAction, $updateAction, $deleteAction);
     }
 }

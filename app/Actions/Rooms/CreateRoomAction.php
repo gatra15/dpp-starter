@@ -3,6 +3,7 @@
 namespace App\Actions\Rooms;
 
 use App\DTOs\RoomDto;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\roomRepository;
 
 class CreateRoomAction
@@ -14,14 +15,17 @@ class CreateRoomAction
 
     public function execute($request)
     {
-        $data = RoomDto::fromRequest($request);
-        $data = $data->toArray();
-        $model = $this->roomRepository->create($data);
-        if ($model) {
+        DB::beginTransaction();
+
+        try {
+            $data = RoomDto::fromRequest($request);
+            $data = $data->toArray();
+            $model = $this->roomRepository->create($data);
+            DB::commit();
             return $model;
-        } else {
-            throw new \Exception('Failed to create department');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Gagal membuat ruangan: ' . $e->getMessage(), 0, $e);
         }
-        
     }
 }

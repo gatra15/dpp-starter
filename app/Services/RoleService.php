@@ -12,11 +12,11 @@ class RoleService extends BaseService
 {
     public function __construct(
         GetRoleAction $getAction,
-        GetOptionAction $getOptionAction,
         CreateRoleAction $createAction,
         UpdateRoleAction $updateAction,
-        DeleteRoleAction $deleteAction
+        DeleteRoleAction $deleteAction,
+        GetOptionAction $getOptionAction,
     ) {
-        parent::__construct('roles', $getAction, $getOptionAction, $createAction, $updateAction, $deleteAction);
+        parent::__construct('roles', $getAction, null, $getOptionAction, $createAction, $updateAction, $deleteAction);
     }
 }

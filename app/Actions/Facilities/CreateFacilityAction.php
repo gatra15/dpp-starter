@@ -3,6 +3,7 @@
 namespace App\Actions\Facilities;
 
 use App\DTOs\FacilityDto;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\FacilityRepository;
 
 class CreateFacilityAction
@@ -14,13 +15,18 @@ class CreateFacilityAction
 
     public function execute($request)
     {
+        DB::beginTransaction(); 
+
+        try {
         $data = FacilityDto::fromRequest($request);
         $data = $data->toArray();
         $model = $this->facilityRepository->create($data);
-        if ($model) {
+        
+        DB::commit();
             return $model;
-        } else {
-            throw new \Exception('Failed to create facility');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Gagal membuat fasilitas: ' . $e->getMessage(), 0, $e);
         }
         
     }

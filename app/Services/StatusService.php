@@ -19,13 +19,6 @@ class StatusService extends BaseService
         DeleteStatusAction $deleteAction,
         GetOptionAction $getOptionAction
     ) {
-        parent::__construct('status', $getStatusAction, null, $createAction, $updateAction, $deleteAction);
-
-        $this->getOptionAction = $getOptionAction;
-    }
-
-    public function getOptions()
-    {
-        return $this->getOptionAction->execute();
+        parent::__construct('status', $getStatusAction, null, $getOptionAction, $createAction, $updateAction, $deleteAction);
     }
 }

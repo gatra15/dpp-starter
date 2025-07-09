@@ -21,7 +21,7 @@ class UserController extends Controller
             $response = $this->userService->getAll($request);
             return response()->json($response);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Failed to fetch users: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal mengambil daftar user: ' . $e->getMessage()], 500);
         }
     }
 
@@ -39,9 +39,9 @@ class UserController extends Controller
             $response = $this->userService->create($request);
             return response()->json($response, 201);
         } catch (ValidationException $e) {
-            return response()->json(['status' => false, 'message' => 'Validation failed', 'errors' => $e->errors()], 422);
+            return response()->json(['status' => false, 'message' => 'Validasi gagal', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Failed to create user: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal membuat user: ' . $e->getMessage()], 500);
         }
     }
 
@@ -53,7 +53,7 @@ class UserController extends Controller
         } catch (\ErrorException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()], 404);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Failed to fetch user: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal mengambil detail user: ' . $e->getMessage()], 500);
         }
     }
 
@@ -71,9 +71,9 @@ class UserController extends Controller
             $response = $this->userService->update($id, $request);
             return response()->json($response);
         } catch (ValidationException $e) {
-            return response()->json(['status' => false, 'message' => 'Validation failed', 'errors' => $e->errors()], 422);
+            return response()->json(['status' => false, 'message' => 'Validasi gagal', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Failed to update user: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal memperbarui user: ' . $e->getMessage()], 500);
         }
     }
 
@@ -85,7 +85,7 @@ class UserController extends Controller
         } catch (\ErrorException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()], 404);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Failed to delete user: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal menghapus user: ' . $e->getMessage()], 500);
         }
     }
 }

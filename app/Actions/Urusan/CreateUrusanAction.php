@@ -3,6 +3,7 @@
 namespace App\Actions\Urusan;
 
 use App\DTOs\UrusanDto;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\UrusanRepository;
 
 class CreateUrusanAction
@@ -14,13 +15,17 @@ class CreateUrusanAction
 
     public function execute($request)
     {
-        $data = UrusanDto::fromRequest($request);
-        $data = $data->toArray();
-        $model = $this->urusanRepository->create($data);
-        if ($model) {
+        DB::beginTransaction();
+
+        try {
+            $data = UrusanDto::fromRequest($request);
+            $data = $data->toArray();
+            $model = $this->urusanRepository->create($data);
+            DB::commit();
             return $model;
-        } else {
-            throw new \Exception('Failed to create department');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Gagal membuat urusan: ' . $e->getMessage(), 0, $e);
         }
     }
 }

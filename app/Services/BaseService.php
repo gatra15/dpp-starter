@@ -10,16 +10,18 @@ class BaseService
     protected $module;
     protected $getAction;
     protected $detailAction;
+    protected $optionAction;
     protected $createAction;
     protected $updateAction;
     protected $deleteAction;
     protected $user_id;
 
-    public function __construct($module, $getAction, $detailAction, $createAction, $updateAction, $deleteAction)
+    public function __construct($module, $getAction, $detailAction, $optionAction, $createAction, $updateAction, $deleteAction)
     {
         $this->module = $module;
         $this->getAction = $getAction;
         $this->detailAction = $detailAction;
+        $this->optionAction = $optionAction;
         $this->createAction = $createAction;
         $this->updateAction = $updateAction;
         $this->deleteAction = $deleteAction;
@@ -31,7 +33,7 @@ class BaseService
         $data = $this->getAction->execute($request);
         return [
             'status' => true,
-            'message' => 'Successful',
+            'message' => 'Berhasil',
             'data' => $data,
         ];
     }
@@ -40,12 +42,23 @@ class BaseService
     {
         $data = $this->detailAction->execute($id);
         if (empty($data)) {
-            throw new ErrorException("Data not found");
+            throw new ErrorException("Data tidak ditemukan");
         }
 
         return [
             'status' => true,
-            'message' => 'Successful',
+            'message' => 'Berhasil',
+            'data' => $data,
+        ];
+    }
+
+    public function getOptions()
+    {
+        $data = $this->optionAction->execute();
+
+        return [
+            'status' => true,
+            'message' => 'Opsi berhasil diambil',
             'data' => $data,
         ];
     }
@@ -58,7 +71,7 @@ class BaseService
 
         return [
             'status' => true,
-            'message' => 'Data successfully created',
+            'message' => 'Data berhasil dibuat',
             'data' => $data,
 
         ];
@@ -71,7 +84,7 @@ class BaseService
 
         return [
             'status' => true,
-            'message' => 'Data successfully updated',
+            'message' => 'Data berhasil diperbarui',
             'data' => $data,
         ];
     }
@@ -84,7 +97,7 @@ class BaseService
 
         return [
             'status' => true,
-            'message' => 'Data successfully deleted',
+            'message' => 'Data berhasil dihapus',
         ];
     }
 

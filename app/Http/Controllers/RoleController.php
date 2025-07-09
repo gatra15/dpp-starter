@@ -23,7 +23,7 @@ class RoleController extends Controller
             $response = $this->roleService->getAll($request);
             return response()->json($response);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Gagal mengambil daftar peran: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal mengambil daftar role: ' . $e->getMessage()], 500);
         }
     }
 
@@ -38,7 +38,7 @@ class RoleController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['status' => false, 'message' => 'Validasi gagal', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Gagal membuat peran: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal membuat role: ' . $e->getMessage()], 500);
         }
     }
 
@@ -50,7 +50,7 @@ class RoleController extends Controller
         } catch (\ErrorException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()], 404);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Gagal mengambil detail peran: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal mengambil detail role: ' . $e->getMessage()], 500);
         }
     }
 
@@ -66,7 +66,7 @@ class RoleController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['status' => false, 'message' => 'Validasi gagal', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Gagal memperbarui peran: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal memperbarui role: ' . $e->getMessage()], 500);
         }
     }
 
@@ -78,7 +78,7 @@ class RoleController extends Controller
         } catch (\ErrorException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()], 404);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Gagal menghapus peran: ' . $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Gagal menghapus role: ' . $e->getMessage()], 500);
         }
     }
 }

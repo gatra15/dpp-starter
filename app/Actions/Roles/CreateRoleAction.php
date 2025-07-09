@@ -4,6 +4,7 @@ namespace App\Actions\Roles;
 
 use App\DTOs\RoleDto;
 use App\Repositories\RoleRepository;
+use Illuminate\Support\Facades\DB;
 
 class CreateRoleAction
 {
@@ -14,13 +15,16 @@ class CreateRoleAction
 
     public function execute($request)
     {
-        $data = RoleDto::fromRequest($request);
-        $data = $data->toArray();
-        $model = $this->roleRepository->create($data);
-        if ($model) {
+        DB::beginTransaction();
+        try {
+            $data = RoleDto::fromRequest($request);
+            $data = $data->toArray();
+            $model = $this->roleRepository->create($data);
+            DB::commit();
             return $model;
-        } else {
-            throw new \Exception('Failed to create role');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Gagal membuat role: ' . $e->getMessage(), 0, $e);
         }
     }
 }

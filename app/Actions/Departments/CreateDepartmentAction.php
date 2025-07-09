@@ -3,6 +3,7 @@
 namespace App\Actions\Departments;
 
 use App\DTOs\DepartmentDto;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\DepartmentRepository;
 
 class CreateDepartmentAction
@@ -14,13 +15,17 @@ class CreateDepartmentAction
 
     public function execute($request)
     {
+        DB::beginTransaction();
+
+        try {
         $data = DepartmentDto::fromRequest($request);
         $data = $data->toArray();
         $model = $this->departmentRepository->create($data);
-        if ($model) {
+        DB::commit();
             return $model;
-        } else {
-            throw new \Exception('Failed to create department');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Gagal membuat departemen: ' . $e->getMessage(), 0, $e);
         }
         
     }
