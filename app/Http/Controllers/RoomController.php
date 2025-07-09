@@ -33,7 +33,8 @@ class RoomController extends Controller
                 'capacity'      => 'nullable|integer|min:0',
                 'description'   => 'nullable|string',
                 'available'     => 'nullable|boolean',
-                'facility_id'  => 'nullable|array',
+                'facility_ids'  => 'sometimes|nullable|array',
+                'facility_ids.*' => 'integer|exists:facilities,id',
             ]);
 
             $response = $this->roomService->create($request);
@@ -65,7 +66,8 @@ class RoomController extends Controller
                 'capacity'      => 'sometimes|nullable|integer|min:0',
                 'description'   => 'sometimes|nullable|string',
                 'available'     => 'sometimes|nullable|boolean',
-                'facility_id'  => 'sometimes|nullable|array',
+                'facility_ids'  => 'sometimes|nullable|array',
+                'facility_ids.*' => 'integer|exists:facilities,id',
             ]);
 
             $response = $this->roomService->update($id, $request);

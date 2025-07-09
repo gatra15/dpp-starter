@@ -18,4 +18,8 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
     {
         return $this->model->query();
     }
+    public function show($id)
+    {
+        return $this->model->with('facilities')->find($id);
+    }
 }

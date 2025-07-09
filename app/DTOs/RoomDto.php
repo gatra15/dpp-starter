@@ -8,7 +8,7 @@ class RoomDto
     public ?int $capacity = null;
     public ?string $description = null;
     public ?bool $available = null;
-    public array $facility_id = [];
+    public array $facility_ids = [];
 
     public static function fromRequest($request)
     {
@@ -17,7 +17,7 @@ class RoomDto
         $dto->capacity = $request->input('capacity');
         $dto->description = $request->input('description');
         $dto->available = $request->boolean('available');
-        $dto->facility_id = $request->input('facility_id', []);
+        $dto->facility_ids = $request->input('facility_ids', []);
 
         return $dto;
     }

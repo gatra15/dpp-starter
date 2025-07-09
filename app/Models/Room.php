@@ -14,13 +14,12 @@ class Room extends Model
         'capacity',
         'description',
         'available',
-        'facility_id',
     ];
 
     public $timestamps = false;
 
     public function facilities()
     {
-        return $this->belongsToMany(Facility::class);
+        return $this->belongsToMany(Facility::class, 'room_facilities');
     }
 }

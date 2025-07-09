@@ -19,8 +19,14 @@ class CreateRoomAction
 
         try {
             $data = RoomDto::fromRequest($request);
-            $data = $data->toArray();
-            $model = $this->roomRepository->create($data);
+            $roomData = $data->toArray();
+            $facilityIds = $data->facility_ids;
+
+            $model = $this->roomRepository->create($roomData);
+
+            if (!empty($facilityIds)) {
+                $model->facilities()->attach($facilityIds);
+            }
             DB::commit();
             return $model;
         } catch (\Exception $e) {

@@ -8,9 +8,9 @@ use App\Repositories\RoomRepository;
 
 class GetRoomAction
 {
-    protected array $filterableColumns = ['name'];
+    protected array $filterableColumns = ['capacity', 'available'];
     protected array $searchableColumns = ['name'];
-    protected array $allowedSortColumns = ['name'];
+    protected array $allowedSortColumns = ['id', 'name', 'capacity', 'available'];
 
     public function __construct(
         protected RoomRepository $roomRepository,
@@ -22,6 +22,10 @@ class GetRoomAction
     public function execute(Request $request)
     {
         $query = $this->roomRepository->getAll($request);
+        
+        if ($request->boolean('with_facilities')) {
+            $query->with('facilities');
+        }
 
         $query = $this->queryBuilderHelper->applyFilters(
             $request,

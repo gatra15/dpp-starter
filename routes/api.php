@@ -5,6 +5,7 @@ use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UrusanController;
@@ -65,6 +66,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('facilities/options', [FacilityController::class, 'options']);
     Route::put('facilities/{id}', [FacilityController::class, 'update']);
     Route::delete('facilities/{id}', [FacilityController::class, 'destroy']);
+
+    Route::get('rooms', [RoomController::class, 'index']);
+    Route::post('rooms', [RoomController::class, 'store']);
+    Route::get('rooms/{id}', [RoomController::class, 'show']);
+    Route::put('rooms/{id}', [RoomController::class, 'update']);
+    Route::delete('rooms/{id}', [RoomController::class, 'destroy']);
 
     Route::get('status', [StatusController::class, 'index']);
     Route::post('status', [StatusController::class, 'store']);
