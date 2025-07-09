@@ -64,7 +64,6 @@ class UserController extends Controller
                 'name'          => 'sometimes|string|max:255',
                 'username'      => 'sometimes|string|unique:users,username,' . $id,
                 'email'         => 'sometimes|string|email|max:255|unique:users,email,' . $id,
-                'password'      => 'sometimes|string|min:6|confirmed',
                 'department_id' => 'integer|exists:departments,id',
                 'urusan_id'     => 'integer|exists:urusan,id',
             ]);

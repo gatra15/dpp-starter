@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use Illuminate\Http\Request;
 use App\Contracts\RoleRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Permission\Models\Role;
@@ -14,7 +13,7 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
         parent::__construct(new Role());
     }
 
-    public function getAll(Request $request): Builder
+    public function getAll()
     {
         return $this->model->query();
     }

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\RoomRepositoryInterface;
+use App\Repositories\RoomRepository;
+
 use App\Contracts\StatusRepositoryInterface;
 use App\Repositories\StatusRepository;
 

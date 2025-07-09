@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->integer('capacity')->default(0);
-            $table->string('description')->nullable();
-            $table->boolean('available')->default(true);
-            // $table->timestamps();
+        Schema::create('room_facilities', function (Blueprint $table) {
+            $table->foreignId('room_id')->constrained('rooms');
+            $table->foreignId('facility_id')->constrained('facilities');
+
+            $table->primary(['room_id', 'facility_id']);
         });
     }
 
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('room_facilities');
     }
 };
