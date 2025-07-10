@@ -1,6 +1,7 @@
 <?php
 
 namespace App\DTOs;
+
 use Carbon\Carbon;
 
 class BookingDto
@@ -10,7 +11,7 @@ class BookingDto
     public string $end_time;
     public int $participants;
     public ?string $information = null;
-    public int $user_id;
+    public ?int $user_id;
     public int $room_id;
     public ?int $status_id = null;
 

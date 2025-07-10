@@ -17,6 +17,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function getAll(Request $request): Builder
     {
-        return $this->model->query();
+        return $this->model->query()->with('roles');
     }
 }

@@ -20,6 +20,8 @@ class Booking extends Model
         'status_id',
     ];
 
+    public $timestamps = false;
+
     protected $casts = [
         'start_time' => 'datetime',
         'end_time' => 'datetime',

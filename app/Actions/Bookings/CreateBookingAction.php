@@ -3,11 +3,15 @@
 namespace App\Actions\Bookings;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Status;
 use App\Models\Booking;
 use App\DTOs\BookingDto;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Notifications\BookingCreated;
 use App\Repositories\BookingRepository;
+
 
 class CreateBookingAction
 {
@@ -27,7 +31,7 @@ class CreateBookingAction
             $data['user_id'] = $data['user_id'] ?? auth()->id();
 
             $pendingStatus = Status::where('name', 'Pending')->first();
-            $data['status_id'] = $pendingStatus->id();
+            $data['status_id'] = $pendingStatus->id;
 
             $startTime = Carbon::parse($data['start_time']);
             $endTime = Carbon::parse($data['end_time']);
@@ -62,6 +66,16 @@ class CreateBookingAction
             }
 
             DB::commit();
+            $pimpinanUsers = User::role('Pimpinan')->get();
+
+            if ($pimpinanUsers->isEmpty()) {
+                Log::warning("Peringatan: Tidak ada user dengan role 'Pimpinan' untuk mengirim notifikasi booking dibuat.");
+            } else {
+                foreach ($pimpinanUsers as $pimpinanUser) {
+                    $pimpinanUser->notify(new BookingCreated($booking, $pimpinanUser));
+                }
+            }
+
             return $booking;
         } catch (\Exception $e) {
             DB::rollBack();
