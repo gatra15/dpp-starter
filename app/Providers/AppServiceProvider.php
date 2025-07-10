@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\BookingRepositoryInterface;
+use App\Repositories\BookingRepository;
+
 use App\Contracts\RoomRepositoryInterface;
 use App\Repositories\RoomRepository;
 
@@ -47,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FacilityRepositoryInterface::class, FacilityRepository::class);
         $this->app->bind(StatusRepositoryInterface::class, StatusRepository::class);
         $this->app->bind(RoomRepositoryInterface::class, RoomRepository::class);
+        $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
     }
 
     /**

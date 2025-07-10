@@ -9,6 +9,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UrusanController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartmentController;
@@ -78,4 +79,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('status/options', [StatusController::class, 'options']);
     Route::put('status/{id}', [StatusController::class, 'update']);
     Route::delete('status/{id}', [StatusController::class, 'destroy']);
+
+    Route::get('bookings', [BookingController::class, 'index']);
+    Route::post('bookings', [BookingController::class, 'store']);
+    Route::get('bookings/{id}', [BookingController::class, 'show']);
+    Route::put('bookings/{id}', [BookingController::class, 'update']);
+    Route::delete('bookings/{id}', [BookingController::class, 'destroy']);
+    Route::post('bookings/{id}/approve', [BookingController::class, 'approve']);
+    Route::post('bookings/{id}/reject', [BookingController::class, 'reject']);
 });
