@@ -2,30 +2,31 @@
 
 namespace App\Actions\Bookings;
 
+use App\Models\User;
 use App\Models\Status;
 use App\Notifications\HRApproval;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Notifications\BookingApproved;
 use App\Repositories\BookingRepository;
-use App\Models\User;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class ApproveBookingAction
 {
     public function __construct(protected BookingRepository $bookingRepository) {}
 
-    public function execute(int $bookingId): \App\Models\Booking
+    public function execute(int $bookingId)
     {
         DB::beginTransaction();
         try {
             $booking = $this->bookingRepository->show($bookingId);
 
             if (!$booking) {
-                throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Booking dengan ID {$bookingId} tidak ditemukan.");
+                throw new ModelNotFoundException("Booking dengan ID {$bookingId} tidak ditemukan.");
             }
 
-            $booking->load('user'); // Memastikan user yang membuat booking dimuat untuk notifikasi
+            $booking->load('user');
 
             $pendingStatus = Status::where('name', 'pending')->first();
             $pimpinanApprovedStatus = Status::where('name', 'pimpinan_approved')->first();

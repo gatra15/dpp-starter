@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Booking;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use App\Services\BookingService;
+use Illuminate\Routing\Controller;
+use App\Actions\Bookings\RejectBookingAction;
+use App\Actions\Bookings\ApproveBookingAction;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Carbon\Carbon;
 
 class BookingController extends Controller
 {
     protected BookingService $bookingService;
+    protected ApproveBookingAction $approveBookingAction;
+    protected RejectBookingAction $rejectBookingAction;
 
-    public function __construct(BookingService $bookingService)
+    public function __construct(BookingService $bookingService, ApproveBookingAction $approveBookingAction, RejectBookingAction $rejectBookingAction)
     {
         $this->bookingService = $bookingService;
         $this->middleware('auth:api');
+        $this->approveBookingAction = $approveBookingAction;
+        $this->rejectBookingAction = $rejectBookingAction;
     }
 
     public function index(Request $request)
@@ -106,27 +113,48 @@ class BookingController extends Controller
         }
     }
 
-    public function approve(int $bookingId)
+    public function approve(Request $request, int $id)
     {
+        $booking = Booking::findOrFail($id); 
+        $booking->load('user.department');
+
+        $this->authorize('approve', $booking);
+
         try {
-            $response = $this->bookingService->approve($bookingId);
-            return response()->json(['status' => true, 'message' => 'Booking berhasil disetujui', 'data' => $response]);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['status' => false, 'message' => $e->getMessage()], 404);
+            $approvedBooking = $this->approveBookingAction->execute($id);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Booking berhasil disetujui.',
+                'data' => $approvedBooking
+            ], 200);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Gagal menyetujui booking: ' . $e->getMessage()], 500);
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal menyetujui booking: ' . $e->getMessage()
+            ], 500);
         }
     }
 
-    public function reject(int $bookingId)
+    public function reject(Request $request, int $id)
     {
+        $booking = Booking::findOrFail($id);
+        $booking->load('user.department');
+        $this->authorize('reject', $booking);
+
         try {
-            $response = $this->bookingService->reject($bookingId);
-            return response()->json(['status' => true, 'message' => 'Booking berhasil ditolak', 'data' => $response]);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['status' => false, 'message' => $e->getMessage()], 404);
+            $rejectedBooking = $this->rejectBookingAction->execute($id);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Booking berhasil ditolak.',
+                'data' => $rejectedBooking
+            ], 200);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Gagal menolak booking: ' . $e->getMessage()], 500);
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal menolak booking: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

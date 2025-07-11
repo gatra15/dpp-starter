@@ -2,9 +2,10 @@
 
 namespace App\Actions\Bookings;
 
-use App\Repositories\BookingRepository;
 use App\Models\Status;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\BookingRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RejectBookingAction
 {
@@ -19,7 +20,7 @@ class RejectBookingAction
             $booking = $this->bookingRepository->show($bookingId);
 
             if (!$booking) {
-                throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Booking dengan ID {$bookingId} tidak ditemukan.");
+                throw new ModelNotFoundException("Booking dengan ID {$bookingId} tidak ditemukan.");
             }
 
             $rejectedStatus = Status::where('name', 'Rejected')->first();

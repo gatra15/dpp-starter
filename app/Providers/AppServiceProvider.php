@@ -2,34 +2,36 @@
 
 namespace App\Providers;
 
-use App\Contracts\BookingRepositoryInterface;
-use App\Repositories\BookingRepository;
+use App\Models\Booking;
+use App\Policies\BookingPolicy;
 
-use App\Contracts\RoomRepositoryInterface;
-use App\Repositories\RoomRepository;
-
-use App\Contracts\StatusRepositoryInterface;
-use App\Repositories\StatusRepository;
-
-use App\Contracts\FacilityRepositoryInterface;
-use App\Repositories\FacilityRepository;
-
-use App\Contracts\UrusanRepositoryInterface;
-use App\Repositories\UrusanRepository;
-
-use App\Contracts\RoleRepositoryInterface;
+use App\Repositories\LogRepository;
 use App\Repositories\RoleRepository;
 
-use App\Contracts\DepartmentRepositoryInterface;
-use App\Repositories\DepartmentRepository;
-
-use App\Contracts\LogRepositoryInterface;
-use App\Repositories\LogRepository;
-
-use App\Contracts\UserRepositoryInterface;
+use App\Repositories\RoomRepository;
 use App\Repositories\UserRepository;
 
+use App\Repositories\StatusRepository;
+use App\Repositories\UrusanRepository;
+
+use App\Repositories\BookingRepository;
 use Illuminate\Support\ServiceProvider;
+
+use App\Repositories\FacilityRepository;
+use App\Contracts\LogRepositoryInterface;
+
+use App\Contracts\RoleRepositoryInterface;
+use App\Contracts\RoomRepositoryInterface;
+
+use App\Contracts\UserRepositoryInterface;
+use App\Repositories\DepartmentRepository;
+
+use App\Contracts\StatusRepositoryInterface;
+use App\Contracts\UrusanRepositoryInterface;
+
+use App\Contracts\BookingRepositoryInterface;
+use App\Contracts\FacilityRepositoryInterface;
+use App\Contracts\DepartmentRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,6 +54,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RoomRepositoryInterface::class, RoomRepository::class);
         $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
     }
+
+    protected $policies = [
+        Booking::class => BookingPolicy::class,
+    ];
 
     /**
      * Bootstrap any application services.
