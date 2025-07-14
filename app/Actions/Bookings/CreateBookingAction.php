@@ -30,7 +30,7 @@ class CreateBookingAction
 
             $data['user_id'] = $data['user_id'] ?? auth()->id();
 
-            $pendingStatus = Status::where('name', 'Pending')->first();
+            $pendingStatus = Status::where('name', 'pending')->first();
             $data['status_id'] = $pendingStatus->id;
 
             $startTime = Carbon::parse($data['start_time']);
@@ -50,8 +50,8 @@ class CreateBookingAction
                         });
                 })
                 ->whereIn('status_id', [
-                    Status::where('name', 'Pending')->first()->id,
-                    Status::where('name', 'Approved')->first()->id
+                    Status::where('name', 'pending')->first()->id,
+                    Status::where('name', 'approved')->first()->id
                 ])
                 ->count();
 

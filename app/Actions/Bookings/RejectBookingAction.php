@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RejectBookingAction
 {
-    public function __construct(protected BookingRepository $bookingRepository)
-    {
-    }
+    public function __construct(protected BookingRepository $bookingRepository) {}
 
     public function execute($bookingId)
     {
@@ -23,7 +21,7 @@ class RejectBookingAction
                 throw new ModelNotFoundException("Booking dengan ID {$bookingId} tidak ditemukan.");
             }
 
-            $rejectedStatus = Status::where('name', 'Rejected')->first();
+            $rejectedStatus = Status::where('name', 'rejected')->first();
 
             $booking->status_id = $rejectedStatus->id;
             $booking->save();
