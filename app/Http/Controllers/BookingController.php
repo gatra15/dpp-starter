@@ -12,9 +12,12 @@ use App\Actions\Bookings\ApproveBookingAction;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BookingController extends Controller
 {
+    use AuthorizesRequests;
+    
     protected BookingService $bookingService;
     protected ApproveBookingAction $approveBookingAction;
     protected RejectBookingAction $rejectBookingAction;

@@ -66,10 +66,10 @@ class CreateBookingAction
             }
 
             DB::commit();
-            $pimpinanUsers = User::role('Pimpinan')->get();
+            $pimpinanUsers = User::role('pimpinan')->get();
 
             if ($pimpinanUsers->isEmpty()) {
-                Log::warning("Peringatan: Tidak ada user dengan role 'Pimpinan' untuk mengirim notifikasi booking dibuat.");
+                Log::warning("Peringatan: Tidak ada user dengan role 'pimpinan' untuk mengirim notifikasi booking dibuat.");
             } else {
                 foreach ($pimpinanUsers as $pimpinanUser) {
                     $pimpinanUser->notify(new BookingCreated($booking, $pimpinanUser));

@@ -30,6 +30,10 @@ use App\Http\Controllers\Auth\RegisterController;
 //     return $request->user();
 // });
 
+Route::prefix('public')->group(function () {
+    Route::get('bookings/schedule', [BookingController::class, 'publicSchedule']);
+});
+
 Route::prefix('auth')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
     Route::post('register', [RegisterController::class, 'register']);
