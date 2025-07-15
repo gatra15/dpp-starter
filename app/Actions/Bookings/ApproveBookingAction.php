@@ -55,7 +55,7 @@ class ApproveBookingAction
                     Log::warning("Peringatan: Tidak ada user dengan role 'HR' untuk mengirim notifikasi persetujuan HR.");
                 } else {
                     foreach ($hrUsers as $hrUser) {
-                        $hrUser->notify(new HRApproval($booking));
+                        // $hrUser->notify(new HRApproval($booking));
                     }
                 }
                 return $booking;
@@ -65,7 +65,7 @@ class ApproveBookingAction
 
                 DB::commit();
 
-                $booking->user->notify(new BookingApproved($booking));
+                // $booking->user->notify(new BookingApproved($booking));
                 return $booking;
             } else {
                 throw new \Exception('Booking tidak dalam status "pending" atau "pimpinan_approved" untuk disetujui.');

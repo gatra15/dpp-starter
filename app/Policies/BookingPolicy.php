@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Booking;
+use App\Models\Status;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -11,112 +12,119 @@ class BookingPolicy
 {
     use HandlesAuthorization;
 
-    public function approve(User $user, Booking $booking)
+    public function before(User $user, $ability): ?bool
     {
-        if (!$user->hasRole(['pimpinan', 'HR'])) {
-            return Response::deny('Anda tidak memiliki izin untuk menyetujui booking ini.');
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        return null;
+    }
+
+    public function approve(User $user, Booking $booking): Response
+    {
+        $user->loadMissing('department');
+        $booking->loadMissing('user.department');
+
+        $pendingStatusId = Status::where('name', 'pending')->first()?->id;
+        $pimpinanApprovedStatusId = Status::where('name', 'pimpinan_approved')->first()?->id;
+        $approvedStatusId = Status::where('name', 'approved')->first()?->id;
+        $rejectedStatusId = Status::where('name', 'rejected')->first()?->id;
+
+        if (!$pendingStatusId || !$pimpinanApprovedStatusId || !$approvedStatusId || !$rejectedStatusId) {
+            return Response::deny('Status default tidak ditemukan. Hubungi administrator.');
         }
 
-        if ($user->hasRole('pimpinan')) {
-            if ($booking->user->department_id !== $user->department_id) {
-                return Response::deny('Pimpinan hanya dapat menyetujui booking dari departemennya sendiri.');
+        if ($booking->status_id === $approvedStatusId) {
+            return Response::deny('Booking ini sudah disetujui.');
+        }
+        if ($booking->status_id === $rejectedStatusId) {
+            return Response::deny('Booking ini sudah ditolak.');
+        }
+
+        $isPureHR = $user->hasRole('HR') && !$user->hasRole('pimpinan');
+        $isPurePimpinan = $user->hasRole('pimpinan') && !$user->hasRole('HR');
+        $isCombinedHRandPimpinan = $user->hasRole('HR') && $user->hasRole('pimpinan');
+
+        if ($isCombinedHRandPimpinan) {
+            if (!$user->department_id || !$booking->user || !$booking->user->department_id) {
+                return Response::deny('Kombinasi HR+Pimpinan membutuhkan informasi departemen yang lengkap untuk otorisasi.');
+            }
+
+            if ($user->department_id === $booking->user->department_id) {
+                if (in_array($booking->status_id, [$pendingStatusId, $pimpinanApprovedStatusId])) {
+                    return Response::allow();
+                }
+                return Response::deny('Kombinasi HR+Pimpinan (departemen sama) hanya bisa menyetujui booking yang pending atau pimpinan-approved.');
+            } else {
+                if ($booking->status_id === $pimpinanApprovedStatusId) {
+                    return Response::allow();
+                }
+                return Response::deny('Kombinasi HR+Pimpinan (departemen berbeda) hanya bisa menyetujui booking yang pimpinan-approved.');
             }
         }
-        return Response::allow();
-    }
 
-    public function reject(User $user, Booking $booking)
-    {
-        if (!$user->hasRole(['pimpinan', 'HR'])) {
-            return Response::deny('Anda tidak memiliki izin untuk menolak booking ini.');
-        }
-        if ($user->hasRole('pimpinan')) {
-            if ($booking->user->department_id !== $user->department_id) {
-                return Response::deny('Pimpinan hanya dapat menyetujui booking dari departemennya sendiri.');
+        if ($isPurePimpinan) {
+            if ($booking->status_id !== $pendingStatusId) {
+                return Response::deny('Pimpinan (murni) hanya bisa menyetujui booking yang berstatus "pending".');
             }
+
+            if (!$user->department_id || !$booking->user || !$booking->user->department_id) {
+                return Response::deny('Informasi departemen tidak lengkap untuk pengecekan pimpinan.');
+            }
+
+            if ($user->department_id === $booking->user->department_id) {
+                return Response::allow();
+            }
+            return Response::deny('Anda (Pimpinan murni) hanya dapat menyetujui booking dari bawahan yang satu departemen dengan Anda.');
         }
 
-        return Response::allow();
-    }
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function viewAny(User $user)
-    {
-        //
+        if ($isPureHR) {
+            return Response::deny('HR (murni) tidak memiliki izin untuk menyetujui booking.');
+        }
+
+        return Response::deny('Anda tidak memiliki izin yang cukup untuk menyetujui booking ini.');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function view(User $user, Booking $booking)
+    public function reject(User $user, Booking $booking): Response
     {
-        //
-    }
+        $user->loadMissing('department');
+        $booking->loadMissing('user.department');
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(User $user)
-    {
-        //
-    }
+        $rejectedStatusId = Status::where('name', 'rejected')->first()?->id;
+        $approvedStatusId = Status::where('name', 'approved')->first()?->id;
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function update(User $user, Booking $booking)
-    {
-        //
-    }
+        if (!$rejectedStatusId || !$approvedStatusId) {
+            return Response::deny('Status default tidak ditemukan. Hubungi administrator.');
+        }
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function delete(User $user, Booking $booking)
-    {
-        //
-    }
+        if ($booking->status_id === $rejectedStatusId) {
+            return Response::deny('Booking ini sudah ditolak.');
+        }
+        if ($booking->status_id === $approvedStatusId) {
+            return Response::deny('Booking ini sudah disetujui dan tidak dapat ditolak.');
+        }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Booking $booking)
-    {
-        //
-    }
+        $isPureHR = $user->hasRole('HR') && !$user->hasRole('pimpinan');
+        $isPurePimpinan = $user->hasRole('pimpinan') && !$user->hasRole('HR');
+        $isCombinedHRandPimpinan = $user->hasRole('HR') && $user->hasRole('pimpinan');
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Booking $booking)
-    {
-        //
+        if ($isCombinedHRandPimpinan || $isPureHR) { 
+            return Response::allow();
+        }
+
+        if ($isPurePimpinan) {
+            if (!$user->department_id) {
+                return Response::deny('Akun pimpinan Anda tidak terkait dengan departemen mana pun.');
+            }
+            if (!$booking->user || !$booking->user->department_id) {
+                return Response::deny('User pembuat booking tidak ditemukan atau tidak memiliki departemen.');
+            }
+            if ($user->department_id === $booking->user->department_id) {
+                return Response::allow();
+            }
+            return Response::deny('Anda (Pimpinan murni) hanya dapat menolak booking dari bawahan yang satu departemen dengan Anda.');
+        }
+
+        return Response::deny('Anda tidak memiliki izin yang cukup untuk menolak booking ini.');
     }
 }
