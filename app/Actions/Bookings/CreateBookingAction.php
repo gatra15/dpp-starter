@@ -10,14 +10,16 @@ use App\DTOs\BookingDto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Notifications\BookingCreated;
+use App\Repositories\StatusRepository;
 use App\Repositories\BookingRepository;
 
 
 class CreateBookingAction
 {
-    public function __construct(protected BookingRepository $bookingRepository)
+    public function __construct(protected BookingRepository $bookingRepository, protected StatusRepository $statusRepository)
     {
         $this->bookingRepository = $bookingRepository;
+        $this->statusRepository = $statusRepository;
     }
 
     public function execute($request)
@@ -30,7 +32,7 @@ class CreateBookingAction
 
             $data['user_id'] = $data['user_id'] ?? auth()->id();
 
-            $pendingStatus = Status::where('name', 'pending')->first();
+            $pendingStatus = $this->statusRepository->customQuery('pending');
             $data['status_id'] = $pendingStatus->id;
 
             $startTime = Carbon::parse($data['start_time']);
@@ -68,13 +70,13 @@ class CreateBookingAction
             DB::commit();
             $pimpinanUsers = User::role('pimpinan')->get();
 
-            if ($pimpinanUsers->isEmpty()) {
-                Log::warning("Peringatan: Tidak ada user dengan role 'pimpinan' untuk mengirim notifikasi booking dibuat.");
-            } else {
-                foreach ($pimpinanUsers as $pimpinanUser) {
-                    $pimpinanUser->notify(new BookingCreated($booking, $pimpinanUser));
-                }
-            }
+            // if ($pimpinanUsers->isEmpty()) {
+            //     Log::warning("Peringatan: Tidak ada user dengan role 'pimpinan' untuk mengirim notifikasi booking dibuat.");
+            // } else {
+            //     foreach ($pimpinanUsers as $pimpinanUser) {
+            //         $pimpinanUser->notify(new BookingCreated($booking, $pimpinanUser));
+            //     }
+            // }
 
             return $booking;
         } catch (\Exception $e) {

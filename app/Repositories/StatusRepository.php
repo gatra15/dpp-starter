@@ -17,4 +17,9 @@ class StatusRepository extends BaseRepository implements StatusRepositoryInterfa
     {
         return $this->model->query();
     }
+
+    public function customQuery($query)
+    {
+        return $this->model->where('name', $query)->first();
+    }
 }

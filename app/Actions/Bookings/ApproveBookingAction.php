@@ -8,13 +8,20 @@ use App\Notifications\HRApproval;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Notifications\BookingApproved;
+use App\Repositories\StatusRepository;
 use App\Repositories\BookingRepository;
+use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class ApproveBookingAction
 {
-    public function __construct(protected BookingRepository $bookingRepository) {}
+    use HandlesAuthorization;
+    public function __construct(protected BookingRepository $bookingRepository, protected StatusRepository $statusRepository)
+    {
+        $this->bookingRepository = $bookingRepository;
+        $this->statusRepository = $statusRepository;
+    }
 
     public function execute(int $bookingId)
     {
@@ -28,9 +35,10 @@ class ApproveBookingAction
 
             $booking->load('user');
 
-            $pendingStatus = Status::where('name', 'pending')->first();
-            $pimpinanApprovedStatus = Status::where('name', 'pimpinan_approved')->first();
-            $approvedStatus = Status::where('name', 'approved')->first();
+            // $pendingStatus = Status::where('name', 'pending')->first();
+            $pendingStatus = $this->statusRepository->customQuery('pending');
+            $pimpinanApprovedStatus = $this->statusRepository->customQuery('pimpinan_approved');
+            $approvedStatus = $this->statusRepository->customQuery('approved');
 
             if (!$pendingStatus || !$pimpinanApprovedStatus || !$approvedStatus) {
                 throw new \Exception('Status "pending", "pimpinan_approved", atau "approved" tidak ditemukan di database.');
@@ -51,7 +59,7 @@ class ApproveBookingAction
                     }
                 }
                 return $booking;
-            } elseif ($booking->status_id === $pimpinanApprovedStatus->id) {
+            } elseif ($booking->status_id === $pimpinanApprovedStatus->id && auth()->user()->hasRole('HR') && auth()->user()->hasRole('pimpinan')) {
                 $booking->status_id = $approvedStatus->id;
                 $booking->save();
 
