@@ -10,7 +10,7 @@ class LogDto
     public int $entity_id;
     public string $action;
     public int $performed_by;
-    public  $datetime;
+    public string $datetime;
 
     public static function fromModel($data)
     {
@@ -24,7 +24,7 @@ class LogDto
         return $dto;
     }
 
-    public function toArray(): array
+    public function toArray()
     {
         return [
             'entity_type' => $this->entity_type,
