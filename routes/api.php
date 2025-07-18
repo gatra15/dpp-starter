@@ -37,10 +37,12 @@ Route::prefix('public')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
     Route::post('register', [RegisterController::class, 'register']);
+    Route::post('logout', [LoginController::class, 'logout'])->middleware('auth:api');
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('logout', [LoginController::class, 'logout']);
+
+    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
 
     Route::get('users', [UserController::class, 'index']);
     Route::post('users', [UserController::class, 'store']);

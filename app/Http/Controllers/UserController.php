@@ -88,4 +88,9 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => 'Gagal menghapus user: ' . $e->getMessage()], 500);
         }
     }
+
+    public function getAuthenticatedUser(Request $request)
+    {
+        return response()->json(['status' => true, 'data' => $request->user()->load('roles', 'department', 'urusan')]);
+    }
 }
