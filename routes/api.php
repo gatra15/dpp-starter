@@ -72,6 +72,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('facilities', [FacilityController::class, 'index']);
     Route::post('facilities', [FacilityController::class, 'store']);
     Route::get('facilities/options', [FacilityController::class, 'options']);
+    Route::get('facilities/{id}', [FacilityController::class, 'show']);
     Route::put('facilities/{id}', [FacilityController::class, 'update']);
     Route::delete('facilities/{id}', [FacilityController::class, 'destroy']);
 
@@ -84,6 +85,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('status', [StatusController::class, 'index']);
     Route::post('status', [StatusController::class, 'store']);
     Route::get('status/options', [StatusController::class, 'options']);
+    Route::get('status/{id}', [StatusController::class, 'show']);
     Route::put('status/{id}', [StatusController::class, 'update']);
     Route::delete('status/{id}', [StatusController::class, 'destroy']);
 

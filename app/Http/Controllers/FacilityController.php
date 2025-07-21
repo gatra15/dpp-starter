@@ -55,6 +55,18 @@ class FacilityController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        try {
+            $response = $this->facilityService->getDetail($id);
+            return response()->json($response);
+        } catch (\ErrorException $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage()], 404);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Gagal mengambil detail fasilitas: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         try {

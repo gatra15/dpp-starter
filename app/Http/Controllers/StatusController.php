@@ -55,6 +55,18 @@ class StatusController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        try {
+            $response = $this->statusService->getDetail($id);
+            return response()->json($response);
+        } catch (\ErrorException $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage()], 404);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Gagal mengambil detail status: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         try {

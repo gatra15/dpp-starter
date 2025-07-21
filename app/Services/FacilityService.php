@@ -8,6 +8,7 @@ use App\Actions\Facilities\GetFacilityAction;
 use App\Actions\Facilities\CreateFacilityAction;
 use App\Actions\Facilities\DeleteFacilityAction;
 use App\Actions\Facilities\UpdateFacilityAction;
+use App\Actions\Facilities\GetDetailFacilityAction;
 
 class FacilityService extends BaseService
 {
@@ -18,8 +19,9 @@ class FacilityService extends BaseService
         CreateFacilityAction $createAction,
         UpdateFacilityAction $updateAction,
         DeleteFacilityAction $deleteAction,
-        GetOptionAction $getOptionAction
+        GetOptionAction $getOptionAction,
+        GetDetailFacilityAction $detailAction
     ) {
-        parent::__construct('facilities', $getFacilityAction, null, $getOptionAction, $createAction, $updateAction, $deleteAction);
+        parent::__construct('facilities', $getFacilityAction, $detailAction, $getOptionAction, $createAction, $updateAction, $deleteAction);
     }
 }
