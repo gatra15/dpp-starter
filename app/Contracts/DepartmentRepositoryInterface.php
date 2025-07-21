@@ -6,5 +6,5 @@ use Illuminate\Http\Request;
 
 interface DepartmentRepositoryInterface
 {
-   public function getAll(Request $request);
+   public function getAll();
 }

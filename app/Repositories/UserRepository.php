@@ -15,8 +15,13 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         parent::__construct($user);
     }
 
-    public function getAll(Request $request): Builder
+    public function getAll()
     {
-        return $this->model->query()->with('roles');
+        return $this->model->query()->with('roles', 'department', 'urusan');
+    }
+
+    public function show($id)
+    {
+        return $this->model->with('roles', 'department', 'urusan')->find($id);
     }
 }

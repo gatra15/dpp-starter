@@ -6,5 +6,6 @@ use Illuminate\Http\Request;
 
 interface UserRepositoryInterface
 {
-   public function getAll(Request $request);
+   public function getAll();
+   public function show($id);
 }

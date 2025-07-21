@@ -6,5 +6,5 @@ use Illuminate\Http\Request;
 
 interface UrusanRepositoryInterface
 {
-   public function getAll(Request $request);
+   public function getAll();
 }

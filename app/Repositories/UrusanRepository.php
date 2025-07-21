@@ -13,8 +13,8 @@ class UrusanRepository extends BaseRepository implements UrusanRepositoryInterfa
         parent::__construct($urusan);
     }
 
-    public function getAll(Request $request)
+    public function getAll()
     {
-        return $this->model->query();
+        return $this->model->query()->with('department','head');
     }
 }

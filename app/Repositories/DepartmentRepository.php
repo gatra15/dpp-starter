@@ -13,8 +13,8 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
         parent::__construct($department);
     }
 
-    public function getAll(Request $request)
+    public function getAll()
     {
-        return $this->model->query();
+        return $this->model->query()->with('head');
     }
 }

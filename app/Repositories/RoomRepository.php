@@ -14,9 +14,9 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
         parent::__construct($room);
     }
 
-    public function getAll(Request $request)
+    public function getAll()
     {
-        return $this->model->query();
+        return $this->model->query()->with('facilities');
     }
     public function show($id)
     {

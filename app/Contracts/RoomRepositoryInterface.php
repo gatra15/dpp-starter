@@ -6,5 +6,5 @@ use Illuminate\Http\Request;
 
 interface RoomRepositoryInterface
 {
-   public function getAll(Request $request);
+   public function getAll();
 }
