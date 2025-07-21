@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UrusanController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartmentController;
@@ -93,4 +94,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('bookings/{id}', [BookingController::class, 'destroy']);
     Route::post('bookings/{id}/approve', [BookingController::class, 'approve']);
     Route::post('bookings/{id}/reject', [BookingController::class, 'reject']);
+
+    Route::get('audit-logs', [AuditLogController::class, 'index']);
+    Route::get('audit-logs/{id}', [AuditLogController::class, 'show']);
 });
