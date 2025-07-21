@@ -13,7 +13,7 @@ class LogRepository extends BaseRepository implements LogRepositoryInterface
         parent::__construct($auditTrail);
     }
 
-    public function getAll(): Builder
+    public function getAll()
     {
         // Untuk index, eager load performedByUser secara default
         return $this->model->query()->with('performedByUser');
