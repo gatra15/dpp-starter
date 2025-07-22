@@ -48,8 +48,8 @@ class BookingController extends Controller
             $request->validate([
                 'room_id'       => 'required|integer|exists:rooms,id',
                 'title'         => 'required|string|max:255',
-                'start_time'    => 'required|date_format:Y-m-d H:i:s|after_or_equal:now',
-                'end_time'      => 'required|date_format:Y-m-d H:i:s|after:start_time',
+                'start_time'    => 'required|date_format:d-m-Y H:i|after_or_equal:now',
+                'end_time'      => 'required|date_format:d-m-Y H:i|after:start_time',
                 'participants'  => 'nullable|integer|min:1',
                 'information'   => 'nullable|string',
             ]);
@@ -81,8 +81,8 @@ class BookingController extends Controller
             $request->validate([
                 'room_id'       => 'sometimes|integer|exists:rooms,id',
                 'title'         => 'sometimes|string|max:255',
-                'start_time'    => 'sometimes|date_format:Y-m-d H:i:s|after_or_equal:now',
-                'end_time'      => 'sometimes|date_format:Y-m-d H:i:s|after:start_time',
+                'start_time'    => 'sometimes|date_format:d-m-Y H:i|after_or_equal:now',
+                'end_time'      => 'sometimes|date_format:d-m-Y H:i|after:start_time',
                 'participants'  => 'sometimes|nullable|integer|min:1',
                 'information'   => 'sometimes|nullable|string',
                 'status_id'     => 'sometimes|integer|exists:statuses,id',

@@ -19,7 +19,7 @@ class LogDto
         $dto->entity_id     = $data['model_id'];
         $dto->action        = $data['action'];
         $dto->performed_by  = $data['user_id'];
-        $dto->datetime      = Carbon::now()->format('Y-m-d H:i:s');
+        $dto->datetime      = Carbon::now()->format('d-m-Y H:i');
 
         return $dto;
     }
