@@ -19,7 +19,7 @@ class LogDto
         $dto->entity_id     = $data['model_id'];
         $dto->action        = $data['action'];
         $dto->performed_by  = $data['user_id'];
-        $dto->datetime      = Carbon::now()->format('d-m-Y H:i');
+        $dto->datetime      = Carbon::now()->format('Y-m-d H:i:s');
 
         return $dto;
     }
@@ -30,7 +30,7 @@ class LogDto
             'entity_type' => $this->entity_type,
             'entity_id'   => $this->entity_id,
             'action'      => $this->action,
-            'performed_by'=> $this->performed_by,
+            'performed_by' => $this->performed_by,
             'datetime'    => $this->datetime,
         ];
     }
