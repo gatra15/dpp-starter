@@ -13,9 +13,15 @@ class QueryBuilderHelper
     {
         foreach ($filterableColumns as $column) {
             if ($request->has($column) && $request->input($column) !== null) {
-                $query->where($column, $request->input($column));
+                $value = $request->input($column);
+                if (is_string($value) && str_contains($value, ',')) {
+                    $query->whereIn($column, explode(',', $value));
+                } else {
+                    $query->where($column, $value);
+                }
             }
         }
+
 
         if ($request->has('search') && $request->input('search') !== null) {
             $searchTerm = $request->input('search');
