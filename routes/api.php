@@ -94,8 +94,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('bookings/{id}', [BookingController::class, 'show']);
     Route::put('bookings/{id}', [BookingController::class, 'update']);
     Route::delete('bookings/{id}', [BookingController::class, 'destroy']);
-    Route::post('bookings/{id}/approve', [BookingController::class, 'approve']);
-    Route::post('bookings/{id}/reject', [BookingController::class, 'reject']);
+    Route::put('bookings/{id}/approve', [BookingController::class, 'approve']);
+    Route::put('bookings/{id}/reject', [BookingController::class, 'reject']);
 
     Route::get('audit-logs', [AuditLogController::class, 'index']);
     Route::get('audit-logs/{id}', [AuditLogController::class, 'show']);
