@@ -38,6 +38,7 @@ Route::prefix('public')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
     Route::post('register', [RegisterController::class, 'register']);
+    Route::get('roles/options', [RoleController::class, 'options']);
     Route::post('logout', [LoginController::class, 'logout'])->middleware('auth:api');
 });
 

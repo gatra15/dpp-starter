@@ -13,8 +13,8 @@ class RoleController extends Controller
 
     public function __construct(RoleService $roleService)
     {
+        $this->middleware('auth:api')->except(['options']);
         $this->roleService = $roleService;
-        $this->middleware('auth:api');
     }
 
     public function index(Request $request)
