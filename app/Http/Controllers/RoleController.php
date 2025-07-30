@@ -42,6 +42,20 @@ class RoleController extends Controller
         }
     }
 
+    public function options()
+    {
+        try {
+            $options = $this->roleService->getOptions();
+            return response()->json([
+                'status' => true,
+                'message' => 'Daftar opsi role berhasil diambil',
+                'data' => $options
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Gagal mengambil daftar opsi role: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function show($id)
     {
         try {
