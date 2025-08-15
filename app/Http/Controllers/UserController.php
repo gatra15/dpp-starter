@@ -32,8 +32,8 @@ class UserController extends Controller
                 'name'          => 'required|string|max:255',
                 'username'      => 'required|string|unique:users,username',
                 'email'         => 'required|string|email|max:255|unique:users',
-                'department_id' => 'integer|exists:departments,id',
-                'urusan_id'     => 'integer|exists:urusan,id',
+                'department_id' => 'integer|nullable|exists:departments,id',
+                'urusan_id'     => 'integer|nullable|exists:urusan,id',
             ]);
 
             $response = $this->userService->create($request);
@@ -64,8 +64,8 @@ class UserController extends Controller
                 'name'          => 'sometimes|string|max:255',
                 'username'      => 'sometimes|string|unique:users,username,' . $id,
                 'email'         => 'sometimes|string|email|max:255|unique:users,email,' . $id,
-                'department_id' => 'integer|exists:departments,id',
-                'urusan_id'     => 'integer|exists:urusan,id',
+                'department_id' => 'integer|nullable|exists:departments,id',
+                'urusan_id'     => 'integer|nullable|exists:urusan,id',
             ]);
 
             $response = $this->userService->update($id, $request);
