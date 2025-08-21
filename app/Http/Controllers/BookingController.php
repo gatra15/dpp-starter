@@ -29,7 +29,7 @@ class BookingController extends Controller
         $this->bookingService = $bookingService;
         $this->approveBookingAction = $approveBookingAction;
         $this->rejectBookingAction = $rejectBookingAction;
-        $this->middleware('auth:api')->except(['publicSchedule']);
+        $this->middleware('auth:api')->except(['publicSchedule', 'todaySchedule']);
     }
 
     public function index(Request $request)
@@ -158,33 +158,55 @@ class BookingController extends Controller
     public function publicSchedule(Request $request)
     {
         try {
-            // --- DEBUG LOGGING START ---
-            Log::info('Executing publicSchedule method.');
-            // Log query SQL yang akan dijalankan
-            $querySql = Status::where('name', 'approved')->toSql();
-            Log::info('Status query SQL: ' . $querySql);
-            // Log hasil bindings (nilai yang akan dimasukkan ke query)
-            $queryBindings = Status::where('name', 'approved')->getBindings();
-            Log::info('Status query Bindings: ' . implode(', ', $queryBindings));
-
-
             $approvedStatus = Status::where('name', 'approved')->first();
-            // Log hasil dari first() sebelum pengecekan null
-            Log::info('Status query result (before checking null): ' . print_r($approvedStatus, true));
-            // --- DEBUG LOGGING END ---
-
             if (!$approvedStatus) {
-                Log::error('Status "approved" tidak ditemukan di database setelah query. Result: ' . print_r($approvedStatus, true));
                 return response()->json(['status' => false, 'message' => 'Status "approved" tidak ditemukan. Konfigurasi awal mungkin belum lengkap.'], 500);
             }
 
-            $request->merge(['status_id' => $approvedStatus->id]);
+            $request->merge([
+                'status_id' => $approvedStatus->id,
+            ]);
+
+            if (!$request->has('start_time_after') && !$request->has('no_date_filter')) {
+                $today = Carbon::now()->toDateString();
+                $request->merge(['start_time_after' => $today . ' 00:00:00']);
+            }
+
+            $response = $this->bookingService->getAll($request);
+            return response()->json($response);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Gagal mengambil jadwal booking publik: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function todaySchedule(Request $request)
+    {
+        try {
+            $approvedStatus = Status::where('name', 'approved')->first();
+            if (!$approvedStatus) {
+                return response()->json(['status' => false, 'message' => 'Status "approved" tidak ditemukan. Konfigurasi awal mungkin belum lengkap.'], 500);
+            }
+
+            // Dapatkan tanggal hari ini, atau dari request jika ada
+            $dateString = $request->input('date', Carbon::now()->toDateString());
+            $date = Carbon::parse($dateString);
+
+            // Tentukan rentang waktu untuk hari tersebut
+            $startOfDay = $date->startOfDay()->toDateTimeString();
+            $endOfDay = $date->endOfDay()->toDateTimeString();
+
+            $request->merge([
+                'status_id' => $approvedStatus->id,
+                'start_time_after' => $startOfDay,
+                'start_time_before' => $endOfDay,
+            ]);
 
             $response = $this->bookingService->getAll($request);
 
             return response()->json($response);
+        } catch (ValidationException $e) {
+            return response()->json(['status' => false, 'message' => 'Validasi gagal', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            Log::error('Kesalahan umum di publicSchedule: ' . $e->getMessage() . ' Trace: ' . $e->getTraceAsString());
             return response()->json(['status' => false, 'message' => 'Gagal mengambil jadwal booking publik: ' . $e->getMessage()], 500);
         }
     }

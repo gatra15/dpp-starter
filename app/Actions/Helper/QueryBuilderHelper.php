@@ -22,6 +22,18 @@ class QueryBuilderHelper
             }
         }
 
+        foreach ($filterableColumns as $column) {
+            $valueAfter = $request->input($column . '_after');
+            $valueBefore = $request->input($column . '_before');
+            if ($valueAfter !== null && $valueBefore !== null) {
+                $query->whereBetween($column, [$valueAfter, $valueBefore]);
+            } elseif ($valueAfter !== null) {
+                $query->where($column, '>=', $valueAfter);
+            } elseif ($valueBefore !== null) {
+                $query->where($column, '<=', $valueBefore);
+            }
+        }
+
 
         if ($request->has('search') && $request->input('search') !== null) {
             $searchTerm = $request->input('search');

@@ -32,7 +32,8 @@ use App\Http\Controllers\Auth\RegisterController;
 // });
 
 Route::prefix('public')->group(function () {
-    Route::get('bookings/schedule', [BookingController::class, 'publicSchedule']);
+    Route::get('bookings/schedule', [BookingController::class, 'todaySchedule']);
+    Route::get('bookings/all-schedule', [BookingController::class, 'publicSchedule']);
 });
 
 Route::prefix('auth')->group(function () {

@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class GetBookingAction
 {
-    protected array $filterableColumns = ['user_id', 'room_id', 'status_id'];
+    protected array $filterableColumns = ['user_id', 'room_id', 'status_id', 'start_time', 'end_time'];
     protected array $searchableColumns = ['title'];
-    protected array $allowedSortColumns = ['id', 'user_id', 'room_id', 'status_id'];
+    protected array $allowedSortColumns = ['id', 'user_id', 'room_id', 'status_id', 'start_time', 'end_time'];
 
     public function __construct(
         protected BookingRepository $bookingRepository,
