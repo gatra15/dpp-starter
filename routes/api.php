@@ -12,6 +12,7 @@ use App\Http\Controllers\UrusanController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\InstansiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -98,6 +99,13 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('bookings/{id}', [BookingController::class, 'destroy']);
     Route::put('bookings/{id}/approve', [BookingController::class, 'approve']);
     Route::put('bookings/{id}/reject', [BookingController::class, 'reject']);
+
+    Route::get('instansi', [InstansiController::class, 'index']);
+    Route::post('instansi', [InstansiController::class, 'store']);
+    Route::get('instansi/options', [InstansiController::class, 'options']);
+    Route::get('instansi/{id}', [InstansiController::class, 'show']);
+    Route::put('instansi/{id}', [InstansiController::class, 'update']);
+    Route::delete('instansi/{id}', [InstansiController::class, 'destroy']);
 
     Route::get('audit-logs', [AuditLogController::class, 'index']);
     Route::get('audit-logs/{id}', [AuditLogController::class, 'show']);

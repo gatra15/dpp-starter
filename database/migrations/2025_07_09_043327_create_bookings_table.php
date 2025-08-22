@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('room_id')->constrained('rooms');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('status_id')->constrained('status');
+            $table->foreignId('instansi_id')->constrained('instansi');
             // $table->timestamps();
         });
     }

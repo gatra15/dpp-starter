@@ -18,6 +18,7 @@ class Booking extends Model
         'room_id',
         'user_id',
         'status_id',
+        'instansi_id',
     ];
 
     public $timestamps = false;
@@ -40,5 +41,10 @@ class Booking extends Model
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    public function instansi()
+    {
+        return $this->belongsTo(Instansi::class);
     }
 }

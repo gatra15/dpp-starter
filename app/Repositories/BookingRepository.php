@@ -20,6 +20,6 @@ class BookingRepository extends BaseRepository implements BookingRepositoryInter
 
     public function show($id)
     {
-        return $this->model->with(['user', 'room', 'status'])->find($id);
+        return $this->model->with(['user', 'room', 'status', 'instansi'])->find($id);
     }
 }

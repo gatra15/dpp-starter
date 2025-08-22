@@ -15,15 +15,14 @@ class GetBookingAction
     public function __construct(
         protected BookingRepository $bookingRepository,
         protected QueryBuilderHelper $queryBuilderHelper
-    ) {
-    }
+    ) {}
 
     public function execute(Request $request)
     {
         $query = $this->bookingRepository->getAll();
 
         if ($request->boolean('with_relations')) {
-            $query->with(['user', 'room', 'status']);
+            $query->with(['user', 'room', 'status', 'instansi']);
         }
 
         $query = $this->queryBuilderHelper->applyFilters(

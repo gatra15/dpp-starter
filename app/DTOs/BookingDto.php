@@ -14,6 +14,8 @@ class BookingDto
     public ?int $user_id;
     public int $room_id;
     public ?int $status_id = null;
+    public ?int $instansi_id = null;
+
 
     public static function fromRequest($request)
     {
@@ -26,6 +28,7 @@ class BookingDto
         $dto->user_id = $request->input('user_id');
         $dto->room_id = $request->input('room_id');
         $dto->status_id = $request->input('status_id');
+        $dto->instansi_id = $request->input('instansi_id');
 
         return $dto;
     }
@@ -41,6 +44,7 @@ class BookingDto
             'user_id' => $this->user_id,
             'room_id' => $this->room_id,
             'status_id' => $this->status_id ?? null,
+            'instansi_id' => $this->instansi_id ?? null,
         ];
     }
 }

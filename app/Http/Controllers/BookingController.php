@@ -86,6 +86,7 @@ class BookingController extends Controller
                 'participants'  => 'sometimes|nullable|integer|min:1',
                 'information'   => 'sometimes|nullable|string',
                 'status_id'     => 'sometimes|integer|exists:statuses,id',
+                'instansi_id'   => 'sometimes|nullable|integer|exists:instansi,id',
             ]);
 
             if ($request->has('start_time') && $request->has('end_time')) {
